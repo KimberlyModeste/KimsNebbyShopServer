@@ -1,0 +1,6 @@
+@KimsNebbyShopServer_HostAddress = http://localhost:5261
+
+GET {{KimsNebbyShopServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
