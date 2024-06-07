@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using KimsNebbyShopServer.Models;
 
 namespace KimsNebbyShopServer.models
 {
@@ -14,8 +15,9 @@ namespace KimsNebbyShopServer.models
         public decimal Price { get; set; }
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }
-        public string Tags { get; set; } = string.Empty;
+        
         public int Amount { get; set; }
-        // public List<string> Tags { get; set; } = new List<string>{string.Empty};
+        // public string Tags { get; set; } = string.Empty;
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

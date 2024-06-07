@@ -21,12 +21,12 @@ namespace KimsNebbyShopServer.Repository
 
         public async Task<List<Item>> GetAllAsync()
         {
-            return await _context.Items.ToListAsync();
+            return await _context.Items.Include(s => s.Tags).ToListAsync();
         }
 
         public async Task<Item?> GetItemByIdAsync(int id)
         {
-            return await _context.Items.FindAsync(id);
+            return await _context.Items.Include(s => s.Tags).FirstOrDefaultAsync(i => i.Id == id);
         }
         
         public async Task<Item> CreateAsync(Item itemModel)

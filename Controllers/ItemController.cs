@@ -7,17 +7,14 @@ using KimsNebbyShopServer.data;
 using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.mapper;
-using KimsNebbyShopServer.models;
-using KimsNebbyShopServer.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace KimsNebbyShopServer.controllers
 {
     //This is the route for all things items
     [Route("kimsnebbyshopserver/item")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemController : ControllerBase //ALWAYS ADD CONTROLLER BASE BEFORE ROUTE
     {
         private readonly IItemRepository _itemRepo;
         public ItemController(IItemRepository itemRepo)

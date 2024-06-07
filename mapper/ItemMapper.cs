@@ -20,7 +20,7 @@ namespace KimsNebbyShopServer.mapper
                 OnSale = itemModel.OnSale,
                 OnSaleBy = itemModel.OnSaleBy,
                 Amount = itemModel.Amount, 
-                // Tags = itemModel.Tags
+                Tags = itemModel.Tags.Select(s => s.ToTagDto()).ToList()
             };
         }
 
