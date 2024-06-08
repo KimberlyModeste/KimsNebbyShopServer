@@ -9,5 +9,6 @@ namespace KimsNebbyShopServer.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }  = string.Empty;
+        public List<TagConnector> Tags { get; set; } = new List<TagConnector>();
     }
 }

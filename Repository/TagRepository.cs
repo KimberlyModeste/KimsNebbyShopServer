@@ -26,5 +26,12 @@ namespace KimsNebbyShopServer.Repository
         {
             return await _context.Tags.FindAsync(id);
         }
+
+        public async Task<Tag> CreateAsync(Tag tagModel)
+        {
+            await _context.Tags.AddAsync(tagModel);
+            await _context.SaveChangesAsync();
+            return tagModel;
+        }
     }
 }

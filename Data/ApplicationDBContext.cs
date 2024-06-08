@@ -18,5 +18,6 @@ namespace KimsNebbyShopServer.data
         public DbSet<Item> Items { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<TagConnector> TagConnectors { get; set; }
     }
 }

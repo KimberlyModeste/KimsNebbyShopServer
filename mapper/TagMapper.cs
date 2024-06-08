@@ -16,5 +16,13 @@ namespace KimsNebbyShopServer.mapper
                 Name = tagModel.Name
             };
         }
+
+        public static Tag ToTagFromCreateDto(this CreateTagRequestDto tagDto)
+        {
+            return new Tag
+            {
+                Name = tagDto.Name
+            };
+        }
     }
 }

@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>{
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<ITagConnectorRepository, TagConnectorRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -17,7 +17,6 @@ namespace KimsNebbyShopServer.models
         public int OnSaleBy { get; set; }
         
         public int Amount { get; set; }
-        // public string Tags { get; set; } = string.Empty;
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<TagConnector> Tags { get; set; } = new List<TagConnector>();
     }
 }

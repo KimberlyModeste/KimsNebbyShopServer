@@ -4,6 +4,7 @@ using KimsNebbyShopServer.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimsNebbyShopServer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240607214417_updatedTCWith")]
+    partial class updatedTCWith
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,10 +55,6 @@ namespace KimsNebbyShopServer.Migrations
 
                     b.Property<int?>("TagId")
                         .HasColumnType("int");
-
-                    b.Property<string>("TagName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -137,17 +136,13 @@ namespace KimsNebbyShopServer.Migrations
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.TagConnector", b =>
                 {
-                    b.HasOne("KimsNebbyShopServer.models.Item", "Item")
+                    b.HasOne("KimsNebbyShopServer.models.Item", null)
                         .WithMany("Tags")
                         .HasForeignKey("ItemId");
 
-                    b.HasOne("KimsNebbyShopServer.Models.Tag", "Tag")
+                    b.HasOne("KimsNebbyShopServer.Models.Tag", null)
                         .WithMany("Tags")
                         .HasForeignKey("TagId");
-
-                    b.Navigation("Item");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.Tag", b =>

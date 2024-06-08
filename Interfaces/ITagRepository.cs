@@ -10,5 +10,6 @@ namespace KimsNebbyShopServer.Interfaces
     {
         Task<List<Tag>> GetAllAsync();
         Task<Tag?> GetByIdAsync(int id);
+        Task<Tag> CreateAsync(Tag tagModel);
     }
 }

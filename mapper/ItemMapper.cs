@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.models;
 
+
 namespace KimsNebbyShopServer.mapper
 {
     //This maps the items between database and here
@@ -20,7 +21,7 @@ namespace KimsNebbyShopServer.mapper
                 OnSale = itemModel.OnSale,
                 OnSaleBy = itemModel.OnSaleBy,
                 Amount = itemModel.Amount, 
-                Tags = itemModel.Tags.Select(s => s.ToTagDto()).ToList()
+                Tags = itemModel.Tags.Select(s => s.ToTagConnectorDto()).ToList()
             };
         }
 

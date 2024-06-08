@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KimsNebbyShopServer.Dtos.Tag;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.mapper;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,14 @@ namespace KimsNebbyShopServer.Controllers
                 return NotFound();
             }
             return Ok(tag.ToTagDto());
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateTagRequestDto tagDto)
+        {
+            var tagModel = tagDto.ToTagFromCreateDto();
+            await _tagRepo.CreateAsync(tagModel);
+            return CreatedAtAction(nameof(GetById), new { id = tagModel.Id }, tagModel.ToTagDto());
         }
     }
 }

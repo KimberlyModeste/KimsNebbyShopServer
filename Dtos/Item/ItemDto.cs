@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.Tag;
+using KimsNebbyShopServer.Dtos.TagConnector;
+using KimsNebbyShopServer.Models;
 
 namespace KimsNebbyShopServer.Dtos.Item
 {
@@ -14,7 +16,6 @@ namespace KimsNebbyShopServer.Dtos.Item
         public int Amount { get; set; }
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }
-        public List<TagDto> Tags { get; set; }
-        // public string Tags { get; set; } = string.Empty;
+        public List<TagConnectorDto> Tags { get; set; } = new List<TagConnectorDto>();
     }
 }
