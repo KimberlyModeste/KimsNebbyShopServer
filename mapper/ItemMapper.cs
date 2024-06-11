@@ -21,7 +21,7 @@ namespace KimsNebbyShopServer.mapper
                 OnSale = itemModel.OnSale,
                 OnSaleBy = itemModel.OnSaleBy,
                 Amount = itemModel.Amount, 
-                Tags = itemModel.Tags.Select(s => s.ToTagConnectorDto()).ToList()
+                Tags = itemModel.Tags.Select(s => s.ToTagConnectorDtoItems()).ToList()
             };
         }
 
@@ -35,7 +35,6 @@ namespace KimsNebbyShopServer.mapper
                 OnSale = itemDto.OnSale,
                 OnSaleBy = itemDto.OnSaleBy,
                 Amount = itemDto.Amount,
-                //Tags = itemDto.Tags
             };
         }
     }

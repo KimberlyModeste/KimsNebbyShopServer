@@ -7,7 +7,6 @@ namespace KimsNebbyShopServer.Dtos.TagConnector
 {
     public class CreateTagConnectorRequestDto
     {
-        public int TagId { get; set; }
-        public int ItemId { get; set; }
+        //This doesn't need anything in it but I'd Rather have it
     }
 }

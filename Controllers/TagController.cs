@@ -47,5 +47,29 @@ namespace KimsNebbyShopServer.Controllers
             await _tagRepo.CreateAsync(tagModel);
             return CreatedAtAction(nameof(GetById), new { id = tagModel.Id }, tagModel.ToTagDto());
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateTagRequestDto updateDto)
+        {
+            var tagModel = await _tagRepo.UpdateAsync(id, updateDto);
+            if(tagModel == null)
+            {
+                return NotFound();
+            }
+            return Ok(tagModel.ToTagDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var tag = await _tagRepo.DeleteAsync(id);
+            if(tag == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }

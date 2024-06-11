@@ -15,9 +15,13 @@ namespace KimsNebbyShopServer.Controllers
     public class TagConnectorController: ControllerBase //ALWAYS ADD CONTROLLER BASE BEFORE ROUTE
     {
         private readonly ITagConnectorRepository _tcRepo;
-        public TagConnectorController(ITagConnectorRepository tcRepo)
+        private readonly IItemRepository _itemRepo;
+        private readonly ITagRepository _tagRepo;
+        public TagConnectorController(ITagConnectorRepository tcRepo, IItemRepository itemRepo, ITagRepository tagRepo)
         {
             _tcRepo = tcRepo;
+            _itemRepo = itemRepo;
+            _tagRepo = tagRepo; 
         }
         
         //This is where we get all of the items in the list
@@ -41,12 +45,39 @@ namespace KimsNebbyShopServer.Controllers
             return Ok(tc.ToTagConnectorDto());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTagConnectorRequestDto tcDto)
+        [HttpPost("{itemId},{tagId}")]
+        public async Task<IActionResult> Create([FromRoute]int itemId, int tagId, CreateTagConnectorRequestDto tcDto)
         {
-            var tcModel = tcDto.ToTCFromCreateDto();
+            var itemExists = await _itemRepo.ItemExists(itemId);
+            var tagExists = await _tagRepo.TagExists(tagId);
+            if(!itemExists&&!tagExists)
+            {
+                return BadRequest("Neither item nor tag exists");
+            }
+            else if (!itemExists)
+            {
+                return BadRequest("Item does not exist");
+            }
+            else if (!tagExists)
+            {
+                return BadRequest("Tag does not exist");
+            }
+            var tcModel = tcDto.ToTCFromCreateDto(itemId, tagId);
             await _tcRepo.CreateAsync(tcModel);
+
             return CreatedAtAction(nameof(GetById), new { id = tcModel.Id}, tcModel.ToTagConnectorDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var tcModel = await _tcRepo.DeleteAsync(id);
+            if(tcModel == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

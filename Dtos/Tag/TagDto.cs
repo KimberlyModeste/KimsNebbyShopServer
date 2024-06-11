@@ -10,6 +10,5 @@ namespace KimsNebbyShopServer.Dtos.Tag
     {
         public int Id { get; set; }
         public string Name { get; set; }  = string.Empty;
-        // public List<TagConnectorDto> Tags { get; set; } = new List<TagConnectorDto> ();
     }
 }

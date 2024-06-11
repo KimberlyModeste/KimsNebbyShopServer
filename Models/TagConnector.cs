@@ -11,8 +11,7 @@ namespace KimsNebbyShopServer.Models
         public int Id { get; set; }
         public int? TagId { get; set; }
         public int? ItemId { get; set; }
-        public string TagName { get; set; } = string.Empty;
-        public Tag? Tag { get; set; } = new Tag();
-        public Item? Item { get; set; }  = new Item();
+        public Tag? Tag { get; set; }
+        public Item? Item { get; set; }
     }
 }

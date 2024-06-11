@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.TagConnector;
@@ -11,28 +12,38 @@ namespace KimsNebbyShopServer.mapper
     {
         public static TagConnectorDto ToTagConnectorDto(this TagConnector tcModel)
         {
-            if(tcModel.Tag == null || tcModel.Tag.ToTagDto().Name == "")
+            return new TagConnectorDto{
+                Id = tcModel.Id,
+                ItemId = tcModel.ItemId,
+                TagId = tcModel.TagId
+            };
+        }
+
+        public static TagConnectorDtoItems ToTagConnectorDtoItems(this TagConnector tcModel)
+        {
+            if(tcModel.Tag == null)
             {
-                return new TagConnectorDto{
+                return new TagConnectorDtoItems{
                     Id = tcModel.Id,
                     ItemId = tcModel.ItemId,
                     TagId = tcModel.TagId
                 };
             }
-            return new TagConnectorDto{
+            return new TagConnectorDtoItems{
                 Id = tcModel.Id,
                 ItemId = tcModel.ItemId,
                 TagId = tcModel.TagId,
-                TagName = tcModel.Tag.ToTagDto().Name
+                Tag = tcModel.Tag.ToTagDto()
             };
         }
 
-        public static TagConnector ToTCFromCreateDto (this CreateTagConnectorRequestDto tcDto)
+        public static TagConnector ToTCFromCreateDto (this CreateTagConnectorRequestDto tcDto, int itemId, int tagId)
         {
+            // Console.WriteLine("Before TC Create");
             return new TagConnector
             {
-                ItemId = tcDto.ItemId,
-                TagId = tcDto.TagId
+                ItemId = itemId,
+                TagId = tagId,
             };
         }
     }

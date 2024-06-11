@@ -14,6 +14,7 @@ namespace KimsNebbyShopServer.Interfaces
         Task<Item> CreateAsync(Item itemModel);
         Task<Item?> UpdateAsync(int id, UpdateItemRequestDto itemDto);
         Task<Item?> DeleteAsync(int id);
+        Task<bool> ItemExists(int id);
 
     }
 }

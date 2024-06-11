@@ -21,12 +21,12 @@ namespace KimsNebbyShopServer.Repository
 
         public async Task<List<Item>> GetAllAsync()
         {
-            return await _context.Items.Include(s => s.Tags).ThenInclude(y =>y.Tag).ToListAsync();
+            return await _context.Items.Include(x => x.Tags).ThenInclude(y =>y.Tag).ToListAsync();
         }
 
         public async Task<Item?> GetItemByIdAsync(int id)
         {
-            return await _context.Items.Include(s => s.Tags).ThenInclude(y =>y.Tag).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Items.Include(x => x.Tags).ThenInclude(y =>y.Tag).FirstOrDefaultAsync(z => z.Id == id);
         }
         
         public async Task<Item> CreateAsync(Item itemModel)
@@ -66,6 +66,11 @@ namespace KimsNebbyShopServer.Repository
             await _context.SaveChangesAsync();
             
             return item;
+        }
+
+        public Task<bool> ItemExists(int id)
+        {
+            return _context.Items.AnyAsync(x => x.Id==id);
         }
     }
 }

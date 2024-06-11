@@ -12,7 +12,5 @@ namespace KimsNebbyShopServer.Dtos.Item
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }
         public int Amount { get; set; }
-        // public string Tags { get; set; } = string.Empty;
-        public List<string> Tags { get; set; } = new List<string>{string.Empty};
     }
 }
