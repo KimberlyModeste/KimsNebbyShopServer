@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.Dtos.Tag;
 
 namespace KimsNebbyShopServer.Dtos.TagConnector

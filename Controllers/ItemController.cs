@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.data;
 using KimsNebbyShopServer.Dtos.Item;
+using KimsNebbyShopServer.Helpers;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.mapper;
 using Microsoft.AspNetCore.Mvc;
@@ -24,21 +25,21 @@ namespace KimsNebbyShopServer.controllers
 
         //This is where we get all of the items in the list
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
-            var items = await _itemRepo.GetAllAsync();
+            var items = await _itemRepo.GetAllAsync(query);
             var itemDto = items.Select(s => s.ToItemDto());
             return Ok(itemDto);
         }
 
         //This is where we get one item from the list
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var item = await _itemRepo.GetItemByIdAsync(id);
             if(item == null)
             {
-                return NotFound();
+                return NotFound("Item not found");
             }
             return Ok(item.ToItemDto());
         }
@@ -47,6 +48,9 @@ namespace KimsNebbyShopServer.controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateItemRequestDto itemDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var itemModel = itemDto.ToItemFromCreateDto();
             await _itemRepo.CreateAsync(itemModel);
             return CreatedAtAction(nameof(GetById), new { id = itemModel.Id}, itemModel.ToItemDto());
@@ -54,25 +58,28 @@ namespace KimsNebbyShopServer.controllers
 
         //This is where we change something in a database
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateItemRequestDto updateDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var itemModel = await _itemRepo.UpdateAsync(id, updateDto);
             if(itemModel == null)
             {
-                return NotFound();
+                return NotFound("Item not found");
             }
             return Ok(itemModel.ToItemDto());
         }
         //This is where we delete something in a database
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var item = await _itemRepo.DeleteAsync(id);
             if(item == null)
             {
-                return NotFound();
+                return NotFound("Item not found");
             }
             return NoContent();
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.data;
 using KimsNebbyShopServer.Dtos.Item;
+using KimsNebbyShopServer.Helpers;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.models;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -19,9 +20,28 @@ namespace KimsNebbyShopServer.Repository
             _context = context;
         }
 
-        public async Task<List<Item>> GetAllAsync()
+        public async Task<List<Item>> GetAllAsync(QueryObject query)
         {
-            return await _context.Items.Include(x => x.Tags).ThenInclude(y =>y.Tag).ToListAsync();
+            var item = _context.Items.Include(x => x.Tags).ThenInclude(y =>y.Tag).AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(query.Name))
+            {
+                item = item.Where(x => x.Name.Contains(query.Name));
+            }
+
+            if(!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if(query.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    item = query.isDecsending ? item.OrderByDescending(x => x.Name) : item.OrderBy(x => x.Name);
+                }
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+
+
+
+            return await item.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
         public async Task<Item?> GetItemByIdAsync(int id)

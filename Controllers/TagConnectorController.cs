@@ -34,20 +34,23 @@ namespace KimsNebbyShopServer.Controllers
         }
 
         //This is where we get one item from the list
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var tc = await _tcRepo.GetByIdAsync(id);
             if(tc == null)
             {
-                return NotFound();
+                return NotFound("Connector not found");
             }
             return Ok(tc.ToTagConnectorDto());
         }
 
-        [HttpPost("{itemId},{tagId}")]
+        [HttpPost("{itemId:int}-{tagId:int}")]
         public async Task<IActionResult> Create([FromRoute]int itemId, int tagId, CreateTagConnectorRequestDto tcDto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var itemExists = await _itemRepo.ItemExists(itemId);
             var tagExists = await _tagRepo.TagExists(tagId);
             if(!itemExists&&!tagExists)
@@ -69,13 +72,13 @@ namespace KimsNebbyShopServer.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var tcModel = await _tcRepo.DeleteAsync(id);
             if(tcModel == null)
             {
-                return NotFound();
+                return NotFound("Connector not found");
             }
             return NoContent();
         }

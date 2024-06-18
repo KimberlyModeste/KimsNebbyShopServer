@@ -6,10 +6,8 @@ using KimsNebbyShopServer.Models;
 
 namespace KimsNebbyShopServer.Interfaces
 {
-    public interface IUserRepository
+    public interface ITokenService
     {
-        // Task<List<User>> GetAllAsync();
-        // Task<User?> GetByIdAsync(int id);
-        
+        string CreateToken(User user);
     }
 }

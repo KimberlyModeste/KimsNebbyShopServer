@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.Tag;
+using KimsNebbyShopServer.Helpers;
 using KimsNebbyShopServer.Models;
 
 namespace KimsNebbyShopServer.Interfaces
 {
     public interface ITagRepository
     {
-        Task<List<Tag>> GetAllAsync();
+        Task<List<Tag>> GetAllAsync(QueryObject query);
         Task<Tag?> GetByIdAsync(int id);
         Task<Tag> CreateAsync(Tag tagModel);
         Task<Tag?> UpdateAsync(int id, UpdateTagRequestDto itemDto);
