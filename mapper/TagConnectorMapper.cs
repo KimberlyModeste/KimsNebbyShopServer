@@ -13,7 +13,7 @@ namespace KimsNebbyShopServer.mapper
         public static TagConnectorDto ToTagConnectorDto(this TagConnector tcModel)
         {
             return new TagConnectorDto{
-                Id = tcModel.Id,
+                // Id = tcModel.Id,
                 ItemId = tcModel.ItemId,
                 TagId = tcModel.TagId
             };
@@ -24,27 +24,27 @@ namespace KimsNebbyShopServer.mapper
             if(tcModel.Tag == null)
             {
                 return new TagConnectorDtoItems{
-                    Id = tcModel.Id,
-                    ItemId = tcModel.ItemId,
+                    // Id = tcModel.Id,
+                    // ItemId = tcModel.ItemId,
                     TagId = tcModel.TagId
                 };
             }
             return new TagConnectorDtoItems{
-                Id = tcModel.Id,
-                ItemId = tcModel.ItemId,
+                // Id = tcModel.Id,
+                // ItemId = tcModel.ItemId,
                 TagId = tcModel.TagId,
                 Tag = tcModel.Tag.ToTagDto()
             };
         }
 
-        public static TagConnector ToTCFromCreateDto (this CreateTagConnectorRequestDto tcDto, int itemId, int tagId)
-        {
-            // Console.WriteLine("Before TC Create");
-            return new TagConnector
-            {
-                ItemId = itemId,
-                TagId = tagId,
-            };
-        }
+        // public static TagConnector ToTCFromCreateDto (this CreateTagConnectorRequestDto tcModel, int itemId, int tagId)
+        // {
+        //     // Console.WriteLine("Before TC Create");
+        //     return new TagConnector
+        //     {
+        //         ItemId = itemId,
+        //         TagId = tagId,
+        //     };
+        // }
     }
 }

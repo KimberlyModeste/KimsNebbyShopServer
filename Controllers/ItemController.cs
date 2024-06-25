@@ -8,6 +8,7 @@ using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.Helpers;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KimsNebbyShopServer.controllers

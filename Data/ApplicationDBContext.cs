@@ -21,10 +21,32 @@ namespace KimsNebbyShopServer.data
         // public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagConnector> TagConnectors { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<TagConnector>(x => x.HasKey(y => new {y.ItemId, y.TagId}));
+            builder.Entity<TagConnector>()
+                .HasOne(i => i.Item)
+                .WithMany(i => i.Tags)
+                .HasForeignKey(k => k.ItemId);
+            builder.Entity<TagConnector>()
+                .HasOne(i => i.Tag)
+                .WithMany(i => i.Tags)
+                .HasForeignKey(k => k.TagId);
+
+            builder.Entity<Cart>(x => x.HasKey(y => new {y.UserId, y.ItemId}));
+            builder.Entity<Cart>()
+                .HasOne(i => i.User)
+                .WithMany(i => i.Carts)
+                .HasForeignKey(k => k.UserId);
+            builder.Entity<Cart>()
+                .HasOne(i => i.Item)
+                .WithMany(i => i.Carts)
+                .HasForeignKey(k => k.ItemId);
+
+
             List<IdentityRole> roles = new List<IdentityRole>{
                 new IdentityRole
                 {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimsNebbyShopServer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240614231258_SeedRole")]
-    partial class SeedRole
+    [Migration("20240625211412_addedCarts")]
+    partial class addedCarts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,24 @@ namespace KimsNebbyShopServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("KimsNebbyShopServer.Models.Cart", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Cart");
+                });
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.Tag", b =>
                 {
@@ -44,25 +62,17 @@ namespace KimsNebbyShopServer.Migrations
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.TagConnector", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ItemId")
+                    b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
+                    b.HasKey("ItemId", "TagId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("TagConnectors");
+                    b.ToTable("TagConnector");
                 });
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.User", b =>
@@ -200,13 +210,13 @@ namespace KimsNebbyShopServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9e62338b-3ea6-44f2-bf25-2c0de60ba407",
+                            Id = "b2098a9e-a969-453e-b54c-2e133247871d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1e8fd556-bfc1-463d-9e10-e43e425367b5",
+                            Id = "166de9db-ba53-485b-8caf-7e728612d4f8",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -318,15 +328,38 @@ namespace KimsNebbyShopServer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("KimsNebbyShopServer.Models.Cart", b =>
+                {
+                    b.HasOne("KimsNebbyShopServer.models.Item", "Item")
+                        .WithMany("Carts")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KimsNebbyShopServer.Models.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("KimsNebbyShopServer.Models.TagConnector", b =>
                 {
                     b.HasOne("KimsNebbyShopServer.models.Item", "Item")
                         .WithMany("Tags")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("KimsNebbyShopServer.Models.Tag", "Tag")
                         .WithMany("Tags")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Item");
 
@@ -389,8 +422,15 @@ namespace KimsNebbyShopServer.Migrations
                     b.Navigation("Tags");
                 });
 
+            modelBuilder.Entity("KimsNebbyShopServer.Models.User", b =>
+                {
+                    b.Navigation("Carts");
+                });
+
             modelBuilder.Entity("KimsNebbyShopServer.models.Item", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618

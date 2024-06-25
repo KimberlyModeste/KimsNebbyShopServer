@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.Account;
+using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KimsNebbyShopServer.Controllers
 {
@@ -14,10 +16,39 @@ namespace KimsNebbyShopServer.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        public AccountController(UserManager<User> userManager)
+        private readonly ITokenService _tokenService;
+        private readonly SignInManager<User> _signinManager;
+        public AccountController(UserManager<User> userManager, ITokenService tokenService, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
+            _signinManager = signInManager;
         }  
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
+
+            if(user == null)   return Unauthorized("Email or Password not found!");
+
+            var result = await _signinManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if(!result.Succeeded) return Unauthorized("Email or Password not found!");
+
+            return Ok(
+                new NewUserDto
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Token = _tokenService.CreateToken(user)
+                }
+            );
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
@@ -39,7 +70,13 @@ namespace KimsNebbyShopServer.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if(roleResult.Succeeded)
                     {
-                        return Ok("User Created");
+                        return Ok(
+                            new NewUserDto{
+                                UserName = user.UserName,
+                                Email = user.Email,
+                                Token = _tokenService.CreateToken(user)
+                            }
+                        );
                     }
                     else
                     {

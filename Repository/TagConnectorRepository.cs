@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.data;
+using KimsNebbyShopServer.Dtos.Tag;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,15 @@ namespace KimsNebbyShopServer.Repository
             return await _context.TagConnectors.FindAsync(id);
         }
 
+        public async Task<List<TagDto>> GetByItemIdAsync(int id)
+        {
+            return await _context.TagConnectors.Where(u => u.ItemId == id)
+            .Select(t => new TagDto{
+                Id = t.TagId,
+                Name = t.Tag.Name
+            }).ToListAsync();
+        }
+
         public async Task<TagConnector> CreateAsync(TagConnector tcModel)
         {
             await _context.TagConnectors.AddAsync(tcModel);
@@ -35,9 +45,10 @@ namespace KimsNebbyShopServer.Repository
             return tcModel;
         }
 
-        public async Task<TagConnector?> DeleteAsync(int id)
+        
+        public async Task<TagConnector?> DeleteAsync(int itemId, int tagId)
         {
-            var tcModel = await  _context.TagConnectors.FirstOrDefaultAsync(x => x.Id == id);
+            var tcModel = await  _context.TagConnectors.FirstOrDefaultAsync(x => x.ItemId == itemId && x.TagId == tagId);
             if(tcModel == null)
             {
                 return null;
@@ -46,5 +57,6 @@ namespace KimsNebbyShopServer.Repository
             await _context.SaveChangesAsync();
             return tcModel;
         }
+
     }
 }

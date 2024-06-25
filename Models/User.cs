@@ -16,6 +16,7 @@ namespace KimsNebbyShopServer.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; }  = string.Empty;
         public string CardNumber { get; set; } = string.Empty;
+        public List<Cart> Carts { get; set; } = new List<Cart>();
 
     }
 }

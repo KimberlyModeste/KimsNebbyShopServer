@@ -7,12 +7,13 @@ using KimsNebbyShopServer.models;
 
 namespace KimsNebbyShopServer.Models
 {
-    [Table("TagConnector")]
-    public class TagConnector
+    [Table("Cart")]
+    public class Cart
     {
-        public int TagId { get; set; }
+        public int Amount { get; set; }
+        public string UserId { get; set; } 
         public int ItemId { get; set; }
-        public Tag Tag { get; set; }
         public Item Item { get; set; }
+        public User User { get; set; }
     }
 }

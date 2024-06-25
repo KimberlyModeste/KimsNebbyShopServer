@@ -10,8 +10,8 @@ namespace KimsNebbyShopServer.Dtos.TagConnector
 {
     public class TagConnectorDto
     {
-        public int Id { get; set; }
-        public int? TagId { get; set; }
-        public int? ItemId { get; set; }
+        // public int Id { get; set; }
+        public int TagId { get; set; }
+        public int ItemId { get; set; }
     }
 }

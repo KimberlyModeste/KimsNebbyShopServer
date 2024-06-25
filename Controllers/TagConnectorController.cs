@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.TagConnector;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.mapper;
+using KimsNebbyShopServer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KimsNebbyShopServer.Controllers
@@ -33,20 +34,20 @@ namespace KimsNebbyShopServer.Controllers
             return Ok(tcDto);
         }
 
-        //This is where we get one item from the list
+        //This is where we get one item from the list by the item
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetByItemId([FromRoute] int id)
         {
-            var tc = await _tcRepo.GetByIdAsync(id);
+            var tc = await _tcRepo.GetByItemIdAsync(id);
             if(tc == null)
             {
                 return NotFound("Connector not found");
             }
-            return Ok(tc.ToTagConnectorDto());
+            return Ok(tc);
         }
-
+        
         [HttpPost("{itemId:int}-{tagId:int}")]
-        public async Task<IActionResult> Create([FromRoute]int itemId, int tagId, CreateTagConnectorRequestDto tcDto)
+        public async Task<IActionResult> Create([FromRoute]int itemId, int tagId)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,22 +66,47 @@ namespace KimsNebbyShopServer.Controllers
             {
                 return BadRequest("Tag does not exist");
             }
-            var tcModel = tcDto.ToTCFromCreateDto(itemId, tagId);
+
+            var itemTC = await _tcRepo.GetByItemIdAsync(itemId);
+            if(itemTC.Any(e => e.Id == tagId))
+            {
+                return BadRequest("Tag already exists on item");
+            }
+
+            
+            var tcModel = new TagConnector
+            {
+                ItemId = itemId,
+                TagId = tagId
+            };
             await _tcRepo.CreateAsync(tcModel);
 
-            return CreatedAtAction(nameof(GetById), new { id = tcModel.Id}, tcModel.ToTagConnectorDto());
+            if(tcModel == null)
+            {
+                return StatusCode(500, "Could not create");
+            }
+
+            return Created();
         }
 
         [HttpDelete]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [Route("{itemId:int}-{tagId:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int itemId, int tagId)
         {
-            var tcModel = await _tcRepo.DeleteAsync(id);
+            var itemTags = await _tcRepo.GetByItemIdAsync(itemId);
+            var filterTags = itemTags.Where(s => s.Id == tagId);
+            if(filterTags.Count() != 1)
+            {
+                return NotFound("Connector not found");
+            }   
+
+            var tcModel = await _tcRepo.DeleteAsync(itemId, tagId);
             if(tcModel == null)
             {
                 return NotFound("Connector not found");
             }
             return NoContent();
         }
+    
     }
 }

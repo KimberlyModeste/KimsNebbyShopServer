@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimsNebbyShopServer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240614001845_init")]
-    partial class init
+    [Migration("20240620222231_UpdatedManyToMany")]
+    partial class UpdatedManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,21 +44,16 @@ namespace KimsNebbyShopServer.Migrations
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.TagConnector", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ItemId");
+                    b.HasKey("ItemId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -196,6 +191,20 @@ namespace KimsNebbyShopServer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8c4b9cc6-5554-40aa-9367-a9f1af53a7bd",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "e76a1a37-4ef7-46d4-8000-8b9bf7d12206",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -308,11 +317,15 @@ namespace KimsNebbyShopServer.Migrations
                 {
                     b.HasOne("KimsNebbyShopServer.models.Item", "Item")
                         .WithMany("Tags")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("KimsNebbyShopServer.Models.Tag", "Tag")
                         .WithMany("Tags")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Item");
 

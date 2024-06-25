@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KimsNebbyShopServer.Dtos.User;
 using KimsNebbyShopServer.Models;
 
 namespace KimsNebbyShopServer.mapper

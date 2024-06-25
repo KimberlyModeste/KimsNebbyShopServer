@@ -4,6 +4,7 @@ using KimsNebbyShopServer.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KimsNebbyShopServer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240624234601_removedTagConnectorId")]
+    partial class removedTagConnectorId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,24 +24,6 @@ namespace KimsNebbyShopServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("KimsNebbyShopServer.Models.Cart", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Cart");
-                });
 
             modelBuilder.Entity("KimsNebbyShopServer.Models.Tag", b =>
                 {
@@ -207,13 +192,13 @@ namespace KimsNebbyShopServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b2098a9e-a969-453e-b54c-2e133247871d",
+                            Id = "ac316231-404c-4430-84e0-1024919189ed",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "166de9db-ba53-485b-8caf-7e728612d4f8",
+                            Id = "6fd9ce19-0278-4008-b6d7-4c2c28807ff3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -325,25 +310,6 @@ namespace KimsNebbyShopServer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KimsNebbyShopServer.Models.Cart", b =>
-                {
-                    b.HasOne("KimsNebbyShopServer.models.Item", "Item")
-                        .WithMany("Carts")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KimsNebbyShopServer.Models.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("KimsNebbyShopServer.Models.TagConnector", b =>
                 {
                     b.HasOne("KimsNebbyShopServer.models.Item", "Item")
@@ -419,15 +385,8 @@ namespace KimsNebbyShopServer.Migrations
                     b.Navigation("Tags");
                 });
 
-            modelBuilder.Entity("KimsNebbyShopServer.Models.User", b =>
-                {
-                    b.Navigation("Carts");
-                });
-
             modelBuilder.Entity("KimsNebbyShopServer.models.Item", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
