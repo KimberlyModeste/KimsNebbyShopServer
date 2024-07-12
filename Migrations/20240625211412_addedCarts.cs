@@ -12,15 +12,15 @@ namespace KimsNebbyShopServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "6fd9ce19-0278-4008-b6d7-4c2c28807ff3");
+            // migrationBuilder.DeleteData(
+            //     table: "AspNetRoles",
+            //     keyColumn: "Id",
+            //     keyValue: "6fd9ce19-0278-4008-b6d7-4c2c28807ff3");
 
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "ac316231-404c-4430-84e0-1024919189ed");
+            // migrationBuilder.DeleteData(
+            //     table: "AspNetRoles",
+            //     keyColumn: "Id",
+            //     keyValue: "ac316231-404c-4430-84e0-1024919189ed");
 
             migrationBuilder.CreateTable(
                 name: "Cart",
@@ -47,19 +47,19 @@ namespace KimsNebbyShopServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "166de9db-ba53-485b-8caf-7e728612d4f8", null, "User", "USER" },
-                    { "b2098a9e-a969-453e-b54c-2e133247871d", null, "Admin", "ADMIN" }
-                });
+            // migrationBuilder.InsertData(
+            //     table: "AspNetRoles",
+            //     columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+            //     values: new object[,]
+            //     {
+            //         { "166de9db-ba53-485b-8caf-7e728612d4f8", null, "User", "USER" },
+            //         { "b2098a9e-a969-453e-b54c-2e133247871d", null, "Admin", "ADMIN" }
+            //     });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Cart_ItemId",
-                table: "Cart",
-                column: "ItemId");
+            // migrationBuilder.CreateIndex(
+            //     name: "IX_Cart_ItemId",
+            //     table: "Cart",
+            //     column: "ItemId");
         }
 
         /// <inheritdoc />
@@ -68,24 +68,24 @@ namespace KimsNebbyShopServer.Migrations
             migrationBuilder.DropTable(
                 name: "Cart");
 
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "166de9db-ba53-485b-8caf-7e728612d4f8");
+            // migrationBuilder.DeleteData(
+            //     table: "AspNetRoles",
+            //     keyColumn: "Id",
+            //     keyValue: "166de9db-ba53-485b-8caf-7e728612d4f8");
 
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "b2098a9e-a969-453e-b54c-2e133247871d");
+            // migrationBuilder.DeleteData(
+            //     table: "AspNetRoles",
+            //     keyColumn: "Id",
+            //     keyValue: "b2098a9e-a969-453e-b54c-2e133247871d");
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "6fd9ce19-0278-4008-b6d7-4c2c28807ff3", null, "User", "USER" },
-                    { "ac316231-404c-4430-84e0-1024919189ed", null, "Admin", "ADMIN" }
-                });
+            // migrationBuilder.InsertData(
+            //     table: "AspNetRoles",
+            //     columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+            //     values: new object[,]
+            //     {
+            //         { "6fd9ce19-0278-4008-b6d7-4c2c28807ff3", null, "User", "USER" },
+            //         { "ac316231-404c-4430-84e0-1024919189ed", null, "Admin", "ADMIN" }
+            //     });
         }
     }
 }
