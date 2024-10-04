@@ -18,6 +18,7 @@ namespace KimsNebbyShopServer.mapper
                 Id = itemModel.Id,
                 Name = itemModel.Name,
                 Price = itemModel.Price,
+                Description = itemModel.Description,
                 OnSale = itemModel.OnSale,
                 OnSaleBy = itemModel.OnSaleBy,
                 Amount = itemModel.Amount, 
@@ -32,6 +33,7 @@ namespace KimsNebbyShopServer.mapper
             {
                 Name = itemDto.Name,
                 Price = itemDto.Price,
+                Description = itemDto.Description,
                 OnSale = itemDto.OnSale,
                 OnSaleBy = itemDto.OnSaleBy,
                 Amount = itemDto.Amount,

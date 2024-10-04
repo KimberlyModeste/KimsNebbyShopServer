@@ -13,6 +13,7 @@ namespace KimsNebbyShopServer.Dtos.Item
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; }
+        public string Description { get; set; } = string.Empty;
         public int Amount { get; set; }
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }

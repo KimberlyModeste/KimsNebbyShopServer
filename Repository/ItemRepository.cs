@@ -68,6 +68,7 @@ namespace KimsNebbyShopServer.Repository
 
             itemModel.Name = itemDto.Name == "" || itemDto.Name == "string" ? itemModel.Name : itemDto.Name;
             itemModel.Price = itemDto.Price == 0 ? itemModel.Price : itemDto.Price;
+            itemModel.Description = itemDto.Description;
             itemModel.OnSale = itemDto.OnSale;
             itemModel.OnSaleBy = itemDto.OnSaleBy == -1 ? itemModel.OnSaleBy : itemDto.OnSaleBy;
             itemModel.Amount = itemDto.Amount == -1 ? itemModel.Amount : itemDto.Amount;

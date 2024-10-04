@@ -17,6 +17,8 @@ namespace KimsNebbyShopServer.Dtos.Item
         [Required]
         [Range(1,100000, ErrorMessage = "Decimal isn't within the range")]
         public decimal Price { get; set; }
+
+        public string Description { get; set; } = string.Empty;
         public bool OnSale { get; set; }
 
         [Required]

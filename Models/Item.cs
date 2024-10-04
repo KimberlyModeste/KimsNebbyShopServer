@@ -13,6 +13,8 @@ namespace KimsNebbyShopServer.models
         public string Name { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
+        public string Description { get; set; } = string.Empty;
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }
         

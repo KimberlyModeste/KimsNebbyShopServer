@@ -16,6 +16,8 @@ namespace KimsNebbyShopServer.Dtos.Item
         [Range(1,100000)]
         public decimal Price { get; set; }
 
+        public string Description { get; set; } = string.Empty;
+
         [Required]
         [Range(typeof(bool), "true", "false", ErrorMessage = "OnSale should be either true or false")]
         public bool OnSale { get; set; }
