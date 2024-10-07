@@ -12,7 +12,18 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy  =>
+                    {
+                        policy.WithOrigins("http://localhost:3000", "http://localhost:5261")
+                        .WithMethods("PUT", "DELETE", "GET")
+                        .AllowAnyHeader();
+                    });
+});
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
@@ -49,6 +60,9 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
+
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -101,7 +115,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors(MyAllowSpecificOrigins);
 app.MapControllers();
 
 app.Run();
