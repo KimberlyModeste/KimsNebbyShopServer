@@ -22,6 +22,7 @@ namespace KimsNebbyShopServer.data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagConnector> TagConnectors { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,7 +46,11 @@ namespace KimsNebbyShopServer.data
                 .HasOne(i => i.Item)
                 .WithMany(i => i.Carts)
                 .HasForeignKey(k => k.ItemId);
-
+            
+            builder.Entity<Item>()
+                .HasMany(i => i.Images)
+                .WithOne(i => i.Item)
+                .HasForeignKey(k => k.ItemId);
 
             List<IdentityRole> roles = new List<IdentityRole>{
                 new IdentityRole

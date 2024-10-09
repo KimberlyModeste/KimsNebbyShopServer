@@ -21,6 +21,6 @@ namespace KimsNebbyShopServer.models
         public int Amount { get; set; }
         public List<TagConnector> Tags { get; set; } = new List<TagConnector>();
         public List<Cart> Carts { get; set; } = new List<Cart>();
-
+        public List<Image> Images { get; set; } = new List<Image>();
     }
 }
