@@ -22,9 +22,14 @@ namespace KimsNebbyShopServer.Repository
             _context = context;
         }
 
+        //*********************************************************//
+        // PLEASE OH PLEASE FOR THE LOVE OF GOD REMEMBER TO DO THIS
+        // WHEN TRYING TO DO RELATIONSHIPS.
+        // PLEASE REMEMBER TO INCLUDE THE RELATIONSHIP IN THE REPO
+        //*********************************************************//
         public async Task<List<Item>> GetAllAsync(QueryObject query)
         {
-            var item = _context.Items.Include(x => x.Tags).ThenInclude(y =>y.Tag).AsQueryable();
+            var item = _context.Items.Include(x => x.Images).Include(x => x.Tags).ThenInclude(y =>y.Tag).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(query.Name))
             {

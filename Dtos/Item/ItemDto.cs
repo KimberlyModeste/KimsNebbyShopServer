@@ -18,7 +18,7 @@ namespace KimsNebbyShopServer.Dtos.Item
         public int Amount { get; set; }
         public bool OnSale { get; set; }
         public int OnSaleBy { get; set; }
-        public List<TagConnectorDtoItems> Tags { get; set; } = new List<TagConnectorDtoItems>();
         public List<ImageDto> Images { get; set; } = new List<ImageDto>();
+        public List<TagConnectorDtoItems> Tags { get; set; } = new List<TagConnectorDtoItems>();
     }
 }

@@ -46,7 +46,11 @@ namespace KimsNebbyShopServer.data
                 .HasOne(i => i.Item)
                 .WithMany(i => i.Carts)
                 .HasForeignKey(k => k.ItemId);
-            
+                
+            // builder.Entity<Image>()
+            // .HasOne(i =>i.Item)
+            // .WithMany(i => i.Images)
+            // .HasForeignKey(k => k.ItemId);
             builder.Entity<Item>()
                 .HasMany(i => i.Images)
                 .WithOne(i => i.Item)

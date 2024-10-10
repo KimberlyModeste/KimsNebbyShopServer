@@ -10,11 +10,8 @@ namespace KimsNebbyShopServer.Models
 {
     public class Image
     {
-        [Key]
         public int Id { get; set; }
         public string Url { get; set; } = string.Empty;
-
-        [ForeignKey("Item")]
         public int ItemId { get; set; }
         public Item Item { get; set; }
     }

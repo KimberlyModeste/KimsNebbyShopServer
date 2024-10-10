@@ -11,11 +11,27 @@ namespace KimsNebbyShopServer.mapper
     {
         public static ImageDto ToImageDto(this Image imageModel)
         {
+            Console.WriteLine("Here in ImageDTo");
             return new ImageDto {
                 Id = imageModel.Id,
                 Url = imageModel.Url,
                 ItemId = imageModel.ItemId
             };
+
+            // if(imageModel.Item == null)
+            // {
+            //     return new ImageDto {
+            //     Id = imageModel.Id,
+            //     Url = imageModel.Url,
+            //     ItemId = imageModel.ItemId
+            // };
+            // }
+            // return new ImageDto {
+            //     Id = imageModel.Id,
+            //     Url = imageModel.Url,
+            //     ItemId = imageModel.ItemId,
+            //     Item = imageModel.Item.ToItemDto()
+            // };
         }
 
         public static Image ToImageFromCreateDto(this CreateImageDto imageModel)

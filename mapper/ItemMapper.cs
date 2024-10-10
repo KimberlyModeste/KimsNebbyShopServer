@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.models;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace KimsNebbyShopServer.mapper
@@ -14,6 +15,8 @@ namespace KimsNebbyShopServer.mapper
         //This brings items from the db to here in the code
         public static ItemDto ToItemDto(this Item itemModel)
         {
+            if(!itemModel.Images.IsNullOrEmpty())
+            Console.WriteLine("Item Id:"+ itemModel.Images[0]);
             return new ItemDto{
                 Id = itemModel.Id,
                 Name = itemModel.Name,
@@ -21,8 +24,9 @@ namespace KimsNebbyShopServer.mapper
                 Description = itemModel.Description,
                 OnSale = itemModel.OnSale,
                 OnSaleBy = itemModel.OnSaleBy,
-                Amount = itemModel.Amount, 
-                Tags = itemModel.Tags.Select(s => s.ToTagConnectorDtoItems()).ToList()
+                Amount = itemModel.Amount,
+                Images = itemModel.Images.Select(s => s.ToImageDto()).ToList(),
+                // Tags = itemModel.Tags.Select(s => s.ToTagConnectorDtoItems()).ToList()
             };
         }
 
