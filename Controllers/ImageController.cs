@@ -34,19 +34,7 @@ namespace KimsNebbyShopServer.Controllers
             return Ok(imgDto);
         }
 
-        //This is where we get one item from the list
-        // [HttpGet("{id:int}")]
-        // public async Task<IActionResult> GetById([FromRoute] int id)
-        // {
-        //     var image = await _imageRepo.GetByIdAsync(id);
-        //     if(image == null)
-        //     {
-        //         return NotFound("Image not found");
-        //     }
-        //     return Ok(image.ToImageDto());
-        // }
-
-        //This is where we get one item from the list by the item
+        // This is where we get one item from the list by the item
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -58,6 +46,7 @@ namespace KimsNebbyShopServer.Controllers
             return Ok(image);
         }
         
+        //This is where we put new things into the database
         [HttpPost("{itemId:int}")]
         public async Task<IActionResult> Create([FromRoute] int itemId, [FromBody] CreateImageDto imageDto)
         {
@@ -72,11 +61,11 @@ namespace KimsNebbyShopServer.Controllers
                 return BadRequest("Item does not exist");
             }
 
-            // var itemImg = await _imageRepo.GetImageByItemIdAsync(itemId);
-            // if(itemImg.Any(e => e.Url== imageDto.Url ))
-            // {
-            //     return BadRequest("Image already exists on an item");
-            // }
+            var itemImg = await _imageRepo.GetImageByItemIdAsync(itemId);
+            if(itemImg.Any(e => e.Url== imageDto.Url ))
+            {
+                return BadRequest("Image already exists on an item");
+            }
 
             var imgModel = new Image {
                 ItemId = itemId,
@@ -88,11 +77,38 @@ namespace KimsNebbyShopServer.Controllers
                 return StatusCode(500, "Could not create");
             }
             return Created();
-
-            // var imageModel = imageDto.ToImageFromCreateDto();
-            // await _imageRepo.CreateAsync(imageModel);
-            // return CreatedAtAction(nameof(GetById), new { id = imageModel.Id}, imageModel.ToImageDto());
         }
         
+        //This is where we change something in a database
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateImageRequestDto updateDto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var imageModel = await _imageRepo.UpdateAsync(id, updateDto);
+            if(imageModel == null)
+            {
+                return NotFound("Image not found");
+            }
+            return Ok(imageModel.ToImageDto());
+        }
+
+         //This is where we delete something in a database
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var image = await _imageRepo.DeleteAsync(id);
+            if(image == null)
+            {
+                return NotFound("Image not found");
+            }
+            return NoContent();
+        }
+
     }
 }

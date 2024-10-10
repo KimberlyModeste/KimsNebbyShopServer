@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using KimsNebbyShopServer.data;
 using KimsNebbyShopServer.Dtos.Image;
-using KimsNebbyShopServer.Dtos.Item;
 using KimsNebbyShopServer.Interfaces;
 using KimsNebbyShopServer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +21,12 @@ namespace KimsNebbyShopServer.Repository
         {
             return await _context.Images.ToListAsync();
         }
+        
         public async Task<Image?> GetByIdAsync(int id)
         {
             return await _context.Images.FindAsync(id);
         }
+        
         public async Task<List<ImageDto>> GetImageByItemIdAsync(int id)
         {
             return await _context.Images.Where(u => u.ItemId == id)
@@ -35,6 +36,7 @@ namespace KimsNebbyShopServer.Repository
                 ItemId = i.ItemId
             }).ToListAsync();
         }
+        
         public async Task<Image> CreateAsync(Image imageModel)
         {
             await _context.Images.AddAsync(imageModel);
@@ -42,6 +44,19 @@ namespace KimsNebbyShopServer.Repository
             return imageModel;
         }
 
+        public async Task<Image?> UpdateAsync(int id, UpdateImageRequestDto imageDto)
+        {
+            var imageModel = await _context.Images.FirstOrDefaultAsync(x => x.Id == id);
+            if(imageModel == null)
+            {
+                return null;
+            }
+
+            imageModel.Url = imageDto.Url == "" || imageDto.Url == "string" ? imageModel.Url : imageDto.Url;
+            await _context.SaveChangesAsync();
+            return imageModel;
+        }
+        
         public async Task<Image?> DeleteAsync(int id)
         {
             var image = await _context.Images.FirstOrDefaultAsync(x => x.Id == id);
@@ -55,10 +70,9 @@ namespace KimsNebbyShopServer.Repository
             return image;
         }
 
-        public Task<bool> ImageExists(int id)
-        {
-            return _context.Images.AnyAsync(x => x.Id==id);
-        }
-
+        // public Task<bool> ImageExists(int id)
+        // {
+        //     return _context.Images.AnyAsync(x => x.Id==id);
+        // }
     }
 }
