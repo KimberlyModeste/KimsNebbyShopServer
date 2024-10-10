@@ -15,8 +15,6 @@ namespace KimsNebbyShopServer.mapper
         //This brings items from the db to here in the code
         public static ItemDto ToItemDto(this Item itemModel)
         {
-            if(!itemModel.Images.IsNullOrEmpty())
-            Console.WriteLine("Item Id:"+ itemModel.Images[0]);
             return new ItemDto{
                 Id = itemModel.Id,
                 Name = itemModel.Name,
@@ -26,7 +24,7 @@ namespace KimsNebbyShopServer.mapper
                 OnSaleBy = itemModel.OnSaleBy,
                 Amount = itemModel.Amount,
                 Images = itemModel.Images.Select(s => s.ToImageDto()).ToList(),
-                // Tags = itemModel.Tags.Select(s => s.ToTagConnectorDtoItems()).ToList()
+                Tags = itemModel.Tags.Select(s => s.ToTagConnectorDtoItems()).ToList()
             };
         }
 
